@@ -1,4 +1,4 @@
-import java.io.Serializable;
+
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.concurrent.ExecutorService;
@@ -14,41 +14,59 @@ public class Client {
     private static final int HOST = 1099;
 
     public static void main(String[] args) {
-        int rCount=0, wCount= 0, initId=0, finalId=0;
+        int rCount=0;
+        int wCount= 0;
+        int initGetId=0;
+        int finalGetId=0;
+        int initAddId = 0;
+        int finalAddId= 0;
         String fArg = (args.length < 1) ? null : args[0];
         String sArg = (args.length < 2) ? null : args[1];
-        String idList = (args.length < 3) ? null : args[2];
-
-        if (!(checkCounts(fArg) && checkCounts(sArg) && checkIdList(idList))) {
-            System.out.println("incorrect parammetry");
-            return;
+        String idGetList = (args.length < 3) ? null : args[2];
+        String idAddList = (args.length < 4) ? null : args[2];
+        try {
+            if (!(checkCounts(fArg) && checkCounts(sArg) && checkIdList(idGetList) && checkIdList(idAddList))) {
+                System.out.println("incorrect parammetry");
+                return;
+            }
+        }catch (NullPointerException e ){
+            System.out.println("Enter all parameters");
+            e.printStackTrace();
         }
-        if (idList != null){
-            initId = Integer.parseInt(idList.substring(0, idList.indexOf("-")));
-            finalId = Integer.parseInt(idList.substring(idList.indexOf("-") + 1, idList.length()));
+        try {
+            if (idGetList != null) {
+                initGetId = Integer.parseInt(idGetList.substring(0, idGetList.indexOf("-")));
+                finalGetId = Integer.parseInt(idGetList.substring(idGetList.indexOf("-") + 1, idGetList.length()));
+            }
+            if (idAddList != null) {
+                initAddId = Integer.parseInt(idGetList.substring(0, idGetList.indexOf("-")));
+                finalAddId = Integer.parseInt(idGetList.substring(idGetList.indexOf("-") + 1, idGetList.length()));
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
         }
         try{
-            rCount = Integer.parseInt(fArg);
-            wCount = Integer.parseInt(sArg);
+            rCount = (fArg == null)? 0: Integer.parseInt(fArg);
+            wCount = (sArg == null)? 0: Integer.parseInt(sArg);
         }catch (NumberFormatException e){
             e.printStackTrace();
         }
 
-        if (finalId - initId <= rCount ){
-            rCount = finalId - initId ;
-            wCount =0;
-        }else if(finalId - initId <= rCount+ wCount ){
-            wCount = finalId -initId -rCount;
+        if (finalGetId - initGetId <= rCount ){
+            rCount = finalGetId - initGetId ;
         }
-        System.out.println("rCount = "+ rCount + "wCount = " + wCount);
+        if (finalAddId - initAddId <= wCount ){
+            wCount = finalGetId - initGetId ;
+        }
+        System.out.println("rCount = "+ rCount + "wCount = " + wCount + "initGetId= "+initGetId + "initAddId"+initAddId);
         try {
             Registry registry = LocateRegistry.getRegistry(HOST);
             AccountService stub = (AccountService) registry.lookup("ServiceObj");
             ExecutorService executorService = Executors.newFixedThreadPool(rCount+wCount);
-            for (int i=0;i < rCount; i++)
-                executorService.execute(new RemoteReader(stub,initId++));
             for (int i=0; i < wCount; i++)
-                executorService.execute(new RemoteWriter(stub, initId++));
+                executorService.execute(new RemoteWriter(stub, initAddId++));
+            for (int i=0;i < rCount; i++)
+                executorService.execute(new RemoteReader(stub,initGetId++));
             executorService.shutdown();
 
         }catch (Exception e){
@@ -56,18 +74,14 @@ public class Client {
         }
     }
     private static boolean checkCounts (String count){
-        boolean result = false ;
         Pattern pattern = Pattern.compile("^\\d{1,5}$");
         Matcher matcher = pattern.matcher(count);
-        result = matcher.matches();
-        return  result;
+        return matcher.matches();
 
     }
     private static boolean checkIdList(String idList){
-        boolean result = false ;
         Pattern pattern = Pattern.compile("^\\d{1,5}-\\d{1,5}$");
         Matcher matcher = pattern.matcher(idList);
-        result = matcher.matches();
-        return  result;
+        return matcher.matches();
     }
 }

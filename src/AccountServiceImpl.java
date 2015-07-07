@@ -1,5 +1,5 @@
 import java.sql.*;
-import java.util.Locale;
+
 
 /**
  * Created by 21 on 04.07.2015.
@@ -7,7 +7,7 @@ import java.util.Locale;
 public class AccountServiceImpl implements AccountService {
     private Connection conn;
     PreparedStatement preparedStatement;
-    ResultSet resultSet;
+    volatile ResultSet resultSet;
     static Long startTime;
     static int requestCount;
 
@@ -17,7 +17,7 @@ public class AccountServiceImpl implements AccountService {
     private String INSERT = "insert into goods values (?,?);";
 
     static {
-        startTime = System.nanoTime();
+        startTime = System.currentTimeMillis();
         requestCount = 0;
     }
 
@@ -32,8 +32,9 @@ public class AccountServiceImpl implements AccountService {
      * @param id balance identifier
      */
     @Override
-    public Long getAmount(Integer id) {
+    public synchronized Long getAmount(Integer id) {
         try {
+
             preparedStatement = conn.prepareStatement(GET);
             preparedStatement.setInt(1 , id);
             resultSet = preparedStatement.executeQuery();
@@ -73,7 +74,7 @@ public class AccountServiceImpl implements AccountService {
         preparedStatement.setLong(2, value);
         preparedStatement.executeUpdate();
     }
-    private void updateAmount (int id , Long value) throws  SQLException{
+    private synchronized void  updateAmount (int id , Long value) throws  SQLException{
         preparedStatement = conn.prepareStatement(UPDATE);
         preparedStatement.setInt(2 , id);
         preparedStatement.setLong(1, value);
@@ -85,23 +86,18 @@ public class AccountServiceImpl implements AccountService {
             preparedStatement = conn.prepareStatement(GET_ID);
             preparedStatement.setInt(1 , id);
             resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
-                result = true;
-            }else{
-                result = false;
-            }
+            result = resultSet.next() ? true : false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return result;
     }
-    public static String requestStatistic(){
-        String result = "";
-        result = ""+((System.nanoTime()-startTime))+" requests for 1 second ";
-        return result;
+    public String requestStatistic(){
+        return requestCount+" requests for "+((System.currentTimeMillis()-startTime)/1000)+" seconds ";
     }
-    public static void clearStat(){
-        startTime = System.nanoTime();
+    public void clearStat(){
+        System.out.println("Statistics zeroed");
+        startTime = System.currentTimeMillis();
         requestCount = 0;
     }
 

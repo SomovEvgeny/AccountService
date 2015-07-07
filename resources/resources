@@ -2,4 +2,4 @@ update goods set amount = amount - 20 where id = 3 ;
 select * from goods;
 select amount from  goods where id = 1;
 insert into goods values (3 , 20);
-delete from goods where id =3;
+delete from goods where id =6;

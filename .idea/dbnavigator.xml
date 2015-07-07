@@ -24,7 +24,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="a4ef4192-7769-4106-971e-be1963510d5f">
-        <schema name="goods" object-types="function" />
+        <schema name="goods" object-types="column, constraint, function, index, procedure, table, trigger, view" />
       </connection>
     </loaded-nodes>
   </component>

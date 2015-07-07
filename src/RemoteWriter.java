@@ -1,7 +1,4 @@
 import java.rmi.RemoteException;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by 21 on 06.07.2015.
@@ -17,9 +14,10 @@ public class RemoteWriter implements Runnable {
 
     @Override
     public void run() {
+
         try {
-            serviceObj.addAmount(id, (long) 1);
-            Thread.sleep(100);
+                serviceObj.addAmount(id, (long) 1);
+                Thread.sleep(1000);
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
