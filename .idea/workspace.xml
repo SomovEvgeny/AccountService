@@ -2,6 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c49b2ad-3d6f-4868-a7d2-3be93451bf98" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/AccountService/AccountService.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/AccountService/AccountServiceImpl.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/AccountService/Client.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/AccountService/RemoteReader.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/AccountService/RemoteWriter.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/AccountService/Server.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Client.java" afterPath="$PROJECT_DIR$/src/Client.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/RemoteReader.java" afterPath="$PROJECT_DIR$/src/RemoteReader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/RemoteWriter.java" afterPath="$PROJECT_DIR$/src/RemoteWriter.java" />
@@ -45,8 +52,8 @@
       <file leaf-file-name="Server.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6840731" vertical-offset="197" max-vertical-offset="901">
-              <caret line="27" column="16" selection-start-line="27" selection-start-column="16" selection-end-line="27" selection-end-column="16" />
+            <state vertical-scroll-proportion="-0.07049608" vertical-offset="299" max-vertical-offset="901">
+              <caret line="16" column="3" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -855,8 +862,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6840731" vertical-offset="197" max-vertical-offset="901">
-          <caret line="27" column="16" selection-start-line="27" selection-start-column="16" selection-end-line="27" selection-end-column="16" />
+        <state vertical-scroll-proportion="-0.07049608" vertical-offset="299" max-vertical-offset="901">
+          <caret line="16" column="3" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

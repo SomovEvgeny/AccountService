@@ -25,7 +25,7 @@ public class Server {
             registry.rebind("ServiceObj", stub);
             System.out.println("-- Server is started --");
             while(scanner.hasNextLine()){
-                
+
             }
         }catch(SQLException e){
             e.printStackTrace();
