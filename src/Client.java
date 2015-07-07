@@ -34,22 +34,21 @@ public class Client {
             e.printStackTrace();
         }
 
-        System.out.println(" " + rCount + " " + wCount + " " + initId + " " + finalId);
-
         if (finalId - initId <= rCount ){
             rCount = finalId - initId ;
             wCount =0;
         }else if(finalId - initId <= rCount+ wCount ){
             wCount = finalId -initId -rCount;
         }
+        System.out.println("rCount = "+ rCount + "wCount = " + wCount);
         try {
             Registry registry = LocateRegistry.getRegistry(HOST);
             AccountService stub = (AccountService) registry.lookup("ServiceObj");
             ExecutorService executorService = Executors.newFixedThreadPool(rCount+wCount);
             for (int i=0;i < rCount; i++)
-                executorService.execute(new RemoteReader(stub));
+                executorService.execute(new RemoteReader(stub,initId++));
             for (int i=0; i < wCount; i++)
-                executorService.execute(new RemoteWriter(stub));
+                executorService.execute(new RemoteWriter(stub, initId++));
             executorService.shutdown();
 
         }catch (Exception e){

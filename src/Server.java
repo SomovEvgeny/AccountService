@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.Scanner;
 
 /**
  * Created by 21 on 04.07.2015.
@@ -17,12 +18,15 @@ import java.util.Properties;
 public class Server {
     public static void main(String[] args){
         try {
+            Scanner scanner = new Scanner(System.in);
             AccountServiceImpl obj = new AccountServiceImpl(getConnection());
             AccountService stub = (AccountService) UnicastRemoteObject.exportObject(obj,0);
-            System.out.println("--Stub successful created--");
             Registry registry = LocateRegistry.getRegistry();
             registry.rebind("ServiceObj", stub);
             System.out.println("-- Server is started --");
+            while(scanner.hasNextLine()){
+                
+            }
         }catch(SQLException e){
             e.printStackTrace();
         }

@@ -7,46 +7,25 @@ import java.util.regex.Pattern;
  * Created by 21 on 06.07.2015.
  */
 public class RemoteReader implements  Runnable{
-    Scanner scanner;
     AccountService serviceObj;
-    String command;
     int id;
-    Long amount;
-    public RemoteReader(AccountService a){
+    public RemoteReader(AccountService a , int id){
+        this.id = id;
         serviceObj = a;
-        scanner = new Scanner(System.in);
-
     }
     @Override
-    public void run() {
-        System.out.println("Reader "+ Thread.currentThread().getId() + " waits for commands :");
-        while (scanner.hasNextLine()){
-            command=scanner.nextLine();
-            if (isGetCommand(command)){
-                id = Integer.parseInt(command);
-                try {
-                    System.out.println(serviceObj.getAmount(id));
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }else {
-                System.err.println("Unknown command");
-            }
+    public void run(){
+        while (true) {
             try {
-                System.out.println("Sleep");
+                System.out.println(serviceObj.getAmount(id));
                 Thread.sleep(1000);
+            } catch (RemoteException e) {
+                e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
 
-    }
-
-    private  boolean isGetCommand (String str){
-        Pattern pattern = Pattern.compile("^[\\d]{1,5};?$");
-        Matcher matcher = pattern.matcher(str);
-        return  matcher.matches();
     }
 
 }
