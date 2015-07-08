@@ -16,8 +16,10 @@ public class RemoteWriter implements Runnable {
     public void run() {
 
         try {
-                serviceObj.addAmount(id, (long) 1);
-                Thread.sleep(1000);
+                while(true) {
+                    serviceObj.addAmount(id, (long) 1);
+                    Thread.sleep(1000);
+                }
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

@@ -9,7 +9,8 @@ public class AccountServiceImpl implements AccountService {
     PreparedStatement preparedStatement;
     volatile ResultSet resultSet;
     static Long startTime;
-    static int requestCount;
+    static int gCount;
+    static int aCount;
 
     private String GET = "select amount from goods where id = ? ;";
     private String UPDATE = "update goods set amount = amount + ? where id = ?;";
@@ -18,7 +19,8 @@ public class AccountServiceImpl implements AccountService {
 
     static {
         startTime = System.currentTimeMillis();
-        requestCount = 0;
+        gCount = 0;
+        aCount = 0;
     }
 
     public AccountServiceImpl(Connection conn){
@@ -34,7 +36,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public synchronized Long getAmount(Integer id) {
         try {
-
+            gCount++;
             preparedStatement = conn.prepareStatement(GET);
             preparedStatement.setInt(1 , id);
             resultSet = preparedStatement.executeQuery();
@@ -43,7 +45,7 @@ public class AccountServiceImpl implements AccountService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        requestCount++;
+
         return null;
     }
 
@@ -65,7 +67,7 @@ public class AccountServiceImpl implements AccountService {
             e.printStackTrace();
             e.getErrorCode();
         }
-        requestCount++;
+        aCount++;
     }
 
     private void insertAmount(int id, Long value) throws SQLException{
@@ -92,13 +94,17 @@ public class AccountServiceImpl implements AccountService {
         }
         return result;
     }
-    public String requestStatistic(){
-        return requestCount+" requests for "+((System.currentTimeMillis()-startTime)/1000)+" seconds ";
+    public String queryGetStatistic(){
+        return gCount + " get requests for "+((System.currentTimeMillis()-startTime)/1000)+" seconds ";
+    }
+    public String queryAddStatistic(){
+        return aCount + " add requests for "+((System.currentTimeMillis()-startTime)/1000)+" seconds ";
     }
     public void clearStat(){
         System.out.println("Statistics zeroed");
         startTime = System.currentTimeMillis();
-        requestCount = 0;
+        gCount = 0;
+        aCount = 0;
     }
 
 

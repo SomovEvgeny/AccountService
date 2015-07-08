@@ -16,14 +16,15 @@ public class Client {
     public static void main(String[] args) {
         int rCount=0;
         int wCount= 0;
-        int initGetId=0;
-        int finalGetId=0;
+        int initGetId= 0;
+        int finalGetId= 0;
         int initAddId = 0;
         int finalAddId= 0;
         String fArg = (args.length < 1) ? null : args[0];
         String sArg = (args.length < 2) ? null : args[1];
         String idGetList = (args.length < 3) ? null : args[2];
         String idAddList = (args.length < 4) ? null : args[2];
+        // Проверка введенных данных на валидность
         try {
             if (!(checkCounts(fArg) && checkCounts(sArg) && checkIdList(idGetList) && checkIdList(idAddList))) {
                 System.out.println("incorrect parammetry");
@@ -33,6 +34,7 @@ public class Client {
             System.out.println("Enter all parameters");
             e.printStackTrace();
         }
+        // Получение начальных и конечных значений для диапазонов id
         try {
             if (idGetList != null) {
                 initGetId = Integer.parseInt(idGetList.substring(0, idGetList.indexOf("-")));
@@ -45,6 +47,7 @@ public class Client {
         }catch (NullPointerException e){
             e.printStackTrace();
         }
+        //Получение кол-ва потоков
         try{
             rCount = (fArg == null)? 0: Integer.parseInt(fArg);
             wCount = (sArg == null)? 0: Integer.parseInt(sArg);
@@ -63,6 +66,8 @@ public class Client {
             Registry registry = LocateRegistry.getRegistry(HOST);
             AccountService stub = (AccountService) registry.lookup("ServiceObj");
             ExecutorService executorService = Executors.newFixedThreadPool(rCount+wCount);
+
+            //Запуск потоков
             for (int i=0; i < wCount; i++)
                 executorService.execute(new RemoteWriter(stub, initAddId++));
             for (int i=0;i < rCount; i++)

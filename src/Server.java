@@ -33,7 +33,8 @@ public class Server {
             while(scanner.hasNextLine()){
                 String command = scanner.nextLine();
                 if (checkComLine(command, show)){
-                    System.out.println(obj.requestStatistic());
+                    System.out.println(obj.queryGetStatistic());
+                    System.out.println(obj.queryAddStatistic());
                     continue;
                 }
                 if (checkComLine(command, clear)){

@@ -22,11 +22,7 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="a4ef4192-7769-4106-971e-be1963510d5f">
-        <schema name="goods" object-types="column, constraint, function, index, procedure, table, trigger, view" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-list connection-id="a4ef4192-7769-4106-971e-be1963510d5f" dataset="goods.goods" active-filter-id="" />

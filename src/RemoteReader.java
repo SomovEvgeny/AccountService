@@ -14,8 +14,10 @@ public class RemoteReader implements  Runnable{
     @Override
     public void run(){
             try {
-                System.out.println("id = "+ id + " amount = "+serviceObj.getAmount(id));
-                Thread.sleep(1000);
+                while(true) {
+                    System.out.println("id = " + id + " amount = " + serviceObj.getAmount(id));
+                    Thread.sleep(1000);
+                }
             } catch (RemoteException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
